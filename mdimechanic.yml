@@ -1,0 +1,34 @@
+code_name: 'Polaritonic_Chem'
+docker:
+  image_name: 'QM_QED_code'
+
+  build_image:
+
+   #all the dependencies for the code
+    - echo "Insert commands to build the environment for the engine here"
+    - apt-get update --fix-missing
+    - apt-get install -y git wget vim valgrind liblapack-dev libeigen3-dev
+    - pip install cmake
+# How can i access psi4 (import psi4 here or for this code)
+    - pip install psi4
+    - pip install pymdi
+    - pip install mpi4py
+    - pip install numpy
+    - pip install scipy
+    - pip install matplotlib
+
+# How to add different python files/ or access them to build engine? 
+
+
+  build_engine:
+    - echo "Insert commands to build your engine code here"
+
+  validate_engine:
+    - echo "Insert code that will confirm that your code has been built successfully"
+    - exit 1
+
+engine_tests:
+  # Provide at least one example input that can be used to test your code's MDI functionality
+  script:
+    - echo "Insert commands to run an example calculation here"
+    - exit 1
