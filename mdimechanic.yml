@@ -1,24 +1,36 @@
-code_name: 'Polaritonic_Chem'
+code_name: 'polariton-example'
 docker:
-  image_name: 'QM_QED_code'
+  image_name: 'mdiengine'
 
   build_image:
+    - apt-get update
+    - apt-get install -y build-essential cmake clang libssl-dev
+    - apt-get install -y libopenblas-base libopenblas-dev
+    - apt-get install -y libmpfr-dev libeigen3-dev
+    - pip install numpy pymdi pydantic Pint scipy
+    #- pip install pymdi
+    #- pip install pydantic
+    #- pip install Pint
+    #- pip install scipy
 
-   #all the dependencies for the code
-    - echo "Insert commands to build the environment for the engine here"
-    - apt-get update --fix-missing
-    - apt-get install -y git wget vim valgrind liblapack-dev libeigen3-dev
-    - pip install cmake
-# How can i access psi4 (import psi4 here or for this code)
-    - pip install psi4
-    - pip install pymdi
-    - pip install mpi4py
-    - pip install numpy
-    - pip install scipy
-    - pip install matplotlib
+    # Build Psi4
+    - git clone https://github.com/psi4/psi4.git /psi4
+    - cd /psi4
+    - cmake -S. -Bobjdir -DCMAKE_BUILD_TYPE=Release -DENABLE_XHOST=OFF -DBUILD_SHARED_LIBS=ON
+    - cd objdir
+    - make -j 8 VERBOSE=1
 
-# How to add different python files/ or access them to build engine? 
-
+    # Install Psi4 as a Python package
+    - make install
+    - cd /
+    - rm -rf /psi4
+    - mkdir /psi4_scratch
+    - echo "export PYTHONPATH=\$PYTHONPATH:/usr/local/psi4/lib" >> ~/.profile
+    - echo "export PYTHONPATH=\$PYTHONPATH:/usr/local/psi4/lib" >> ~/.bashrc
+    - echo "export PATH=\$PATH:/usr/local/psi4/bin" >> ~/.profile
+    - echo "export PATH=\$PATH:/usr/local/psi4/bin" >> ~/.bashrc
+    - echo "export PSI_SCRATCH=/psi4_scratch" >> ~/.profile
+    - echo "export PSI_SCRATCH=/psi4_scratch" >> ~/.bashrc
 
   build_engine:
     - echo "Insert commands to build your engine code here"
