@@ -11,7 +11,7 @@ docker:
     - pip install Pint
     - pip install scipy
 
-    # Create a scratch directory for Psi4
+   # Create a scratch directory for Psi4
     - mkdir /psi4_scratch
     - echo "export PSI_SCRATCH=/psi4_scratch" >> ~/.profile
     - echo "export PSI_SCRATCH=/psi4_scratch" >> ~/.bashrc
@@ -37,8 +37,7 @@ docker:
     - make install
 
   validate_engine:
-    - echo "Insert code that will confirm that your code has been built successfully"
-    - exit 1
+
 
 engine_tests:
   # Provide at least one example input that can be used to test your code's MDI functionality
